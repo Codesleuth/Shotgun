@@ -12,5 +12,6 @@ namespace Shotgun.models
         HttpStatusCode StatusCode { get; set; }
         string StatusDescription { get; set; }
         string Content { get; set; }
+        WebExceptionStatus WebExceptionStatus { get; set; }
     }
 }

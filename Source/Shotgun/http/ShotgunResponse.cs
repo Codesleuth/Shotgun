@@ -13,5 +13,6 @@ namespace Shotgun.http
         public HttpStatusCode StatusCode { get; set; }
         public string StatusDescription { get; set; }
         public string Content { get; set; }
+        public WebExceptionStatus WebExceptionStatus { get; set; }
     }
 }

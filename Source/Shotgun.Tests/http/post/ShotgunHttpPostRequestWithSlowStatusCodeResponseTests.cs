@@ -9,7 +9,7 @@ using Shotgun.models;
 namespace Shotgun.AcceptanceTests.http.post
 {
     [TestFixture]
-    public class ShotgunHttpPostRequestWithSlowBodyTimeoutTests
+    public class ShotgunHttpPostRequestWithSlowStatusCodeResponseTests
     {
         private IShotgunResponse _response;
         private EasyTimer _easyTimer;
@@ -20,7 +20,7 @@ namespace Shotgun.AcceptanceTests.http.post
         {
             const string url = "http://localhost:60001/";
 
-            _httpServer = new HttpServer(new StallBodyReadHandler(100), 60001);
+            _httpServer = new HttpServer(new StallAfterResponseHandler(3000), 60001);
             _httpServer.Start();
 
             var request = new ShotgunRequest
@@ -36,7 +36,7 @@ namespace Shotgun.AcceptanceTests.http.post
 
             var client = new ShotgunClient
             {
-                Timeout = 2000
+                Timeout = 1000
             };
 
             using (_easyTimer = new EasyTimer())
@@ -66,7 +66,7 @@ namespace Shotgun.AcceptanceTests.http.post
         [Test]
         public void ThenTheResponseFinishedWithinTheTimeoutPeriodPlusGracePeriodForThrowingStupidExceptions()
         {
-            Assert.That(_easyTimer.ElapsedMilliseconds, Is.GreaterThanOrEqualTo(2000).And.LessThanOrEqualTo(3000));
+            Assert.That(_easyTimer.ElapsedMilliseconds, Is.LessThan(2000));
         }
     }
 }

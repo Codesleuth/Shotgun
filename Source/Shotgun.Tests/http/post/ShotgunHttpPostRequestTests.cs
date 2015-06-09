@@ -21,7 +21,7 @@ namespace Shotgun.AcceptanceTests.http.post
         private string _expectedRequestContent;
 
         [TestFixtureSetUp]
-        public void GivenAGetMethodRequestWhenGettingResponse()
+        public void GivenARequestWhenGettingResponse()
         {
             const string url = "http://localhost:60001/";
 

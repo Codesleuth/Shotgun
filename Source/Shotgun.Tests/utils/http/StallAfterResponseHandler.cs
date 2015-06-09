@@ -3,13 +3,13 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace Shotgun.AcceptanceTests.utils
+namespace Shotgun.AcceptanceTests.utils.http
 {
-    public class SlowBodyHandler : HttpServerHandler
+    public class StallAfterResponseHandler : HttpServerHandler
     {
         public int StallMilliseconds { get; private set; }
 
-        public SlowBodyHandler(int stallMilliseconds)
+        public StallAfterResponseHandler(int stallMilliseconds)
         {
             StallMilliseconds = stallMilliseconds;
         }
@@ -31,12 +31,16 @@ namespace Shotgun.AcceptanceTests.utils
                             break;
                     }
 
-                    var b = 0;
-                    while (b > -1)
-                    {
-                        b = stream.ReadByte();
-                        Thread.Sleep(StallMilliseconds);
-                    }
+                    // Read all content
+                    reader.ReadToEnd();
+                }
+
+                using (var writer = new StreamWriter(stream))
+                {
+                    writer.Write("HTTP/1.1 200 OK\r\n");
+
+                    // Stall
+                    Thread.Sleep(StallMilliseconds);
                 }
             }
         }

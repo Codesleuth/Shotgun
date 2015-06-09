@@ -34,17 +34,6 @@ namespace Shotgun
             }
         }
 
-        public IShotgunResponse ExecuteAsGet(IShotgunRequest request, string httpMethod)
-        {
-            return Execute(request, httpMethod, ExecuteGetRequest);
-        }
-
-        public IShotgunResponse ExecuteAsPost(IShotgunRequest request, string httpMethod)
-        {
-            request.Method = Method.POST;
-            return Execute(request, httpMethod, ExecutePostRequest);
-        }
-
         private IShotgunResponse Execute(IShotgunRequest request, string httpMethod, Func<IHttp, string, IHttpResponse> executeRequest)
         {
             IShotgunResponse response = new ShotgunResponse();
@@ -65,6 +54,14 @@ namespace Shotgun
                 var httpResponse = executeRequest(http, httpMethod);
                 response = ConvertHttpResponse(request, httpResponse);
                 response.Request = request;
+            }
+            catch (WebException ex)
+            {
+                response.ErrorMessage = ex.Message;
+                response.ErrorException = ex;
+                response.WebExceptionStatus = ex.Status;
+
+                response.ResponseStatus = ex.Status == WebExceptionStatus.Timeout ? ResponseStatus.TimedOut : ResponseStatus.Error;
             }
             catch (Exception ex)
             {

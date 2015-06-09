@@ -2,6 +2,7 @@
 using System.Net;
 using NUnit.Framework;
 using Shotgun.AcceptanceTests.utils;
+using Shotgun.AcceptanceTests.utils.http;
 using Shotgun.http;
 using Shotgun.models;
 

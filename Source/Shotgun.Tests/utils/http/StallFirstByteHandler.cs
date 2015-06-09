@@ -1,7 +1,7 @@
 using System.Net.Sockets;
 using System.Threading;
 
-namespace Shotgun.AcceptanceTests.utils
+namespace Shotgun.AcceptanceTests.utils.http
 {
     public class StallFirstByteHandler : HttpServerHandler
     {

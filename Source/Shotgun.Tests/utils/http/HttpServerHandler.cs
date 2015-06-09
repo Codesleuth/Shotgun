@@ -1,6 +1,6 @@
 using System.Net.Sockets;
 
-namespace Shotgun.AcceptanceTests.utils
+namespace Shotgun.AcceptanceTests.utils.http
 {
     public abstract class HttpServerHandler
     {
