@@ -17,16 +17,15 @@ namespace Lupara.Tests
             _server = new HauberkServer(new StandardResponseHandler(HttpStatusCode.Forbidden), 65432);
             _server.Start();
 
-            var client = new LuparaClient();
+            var client = LuparaFactory.CreateClient();
+            var request = LuparaFactory.CreateRequest();
 
-            var request = new LuparaRequest
-            {
-                Method = "POST",
-                Uri = new Uri("http://localhost:65432"),
-                Content = "hello",
-                ContentType = "text/plain",
-                Timeout = 2000
-            };
+            request.Method = "POST";
+            request.Uri = new Uri("http://localhost:65432");
+            request.Content = "hello";
+            request.ContentType = "text/plain";
+            request.Timeout = 2000;
+            request.ReadWriteTimeout = 2000;
 
             _response = client.Execute(request);
         }

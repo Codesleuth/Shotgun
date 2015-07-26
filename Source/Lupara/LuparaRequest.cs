@@ -12,7 +12,7 @@ namespace Lupara
         int ReadWriteTimeout { get; set; }
     }
 
-    public class LuparaRequest : ILuparaRequest
+    internal class LuparaRequest : ILuparaRequest
     {
         public Uri Uri { get; set; }
         public string Method { get; set; }

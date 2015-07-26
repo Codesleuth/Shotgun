@@ -13,7 +13,7 @@ namespace Lupara
         Uri ResponseUri { get; set; }
     }
 
-    public class LuparaResponse: ILuparaResponse
+    internal class LuparaResponse: ILuparaResponse
     {
         public HttpStatusCode StatusCode { get; set; }
         public ResponseStatus ResponseStatus { get; set; }

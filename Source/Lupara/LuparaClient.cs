@@ -9,7 +9,7 @@ namespace Lupara
         ILuparaResponse Execute(ILuparaRequest request);
     }
 
-    public class LuparaClient : ILuparaClient
+    internal class LuparaClient : ILuparaClient
     {
         public ILuparaResponse Execute(ILuparaRequest request)
         {
