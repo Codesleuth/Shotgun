@@ -92,7 +92,7 @@ namespace Shotgun.http
             httpResponse.ResponseStatus = ResponseStatus.Error;
         }
 
-        private static HttpResponse GetResponse(HttpWebRequest request)
+        private static HttpResponse GetResponse(WebRequest request)
         {
             var response = new HttpResponse {ResponseStatus = ResponseStatus.None};
 

@@ -7,13 +7,17 @@ namespace Shotgun.AcceptanceTests.utils
     {
         private readonly Stopwatch _stopwatch;
 
+        public static EasyTimer StartNew()
+        {
+            return new EasyTimer();
+        }
+
         /// <summary>
         /// Creates and starts a new timer.
         /// </summary>
-        public EasyTimer()
+        private EasyTimer()
         {
-            _stopwatch = new Stopwatch();
-            _stopwatch.Start();
+            _stopwatch = Stopwatch.StartNew();
         }
 
         /// <summary>
@@ -27,9 +31,11 @@ namespace Shotgun.AcceptanceTests.utils
         /// <summary>
         /// Gets the total elapsed time measured by the current instance, in milliseconds.
         /// </summary>
-        public long ElapsedMilliseconds
-        {
-            get { return _stopwatch.ElapsedMilliseconds; }
-        }
+        public long ElapsedMilliseconds => _stopwatch.ElapsedMilliseconds;
+
+        /// <summary>
+        /// Gets the total elapsed time measured by the current instance.
+        /// </summary>
+        public TimeSpan Elapsed => _stopwatch.Elapsed;
     }
 }

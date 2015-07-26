@@ -2,6 +2,7 @@
 using System.Net;
 using NUnit.Framework;
 using Shotgun.AcceptanceTests.utils;
+using Shotgun.AcceptanceTests.utils.http;
 using Shotgun.http;
 using Shotgun.models;
 
@@ -12,18 +13,15 @@ namespace Shotgun.AcceptanceTests.http.get
     {
         private IShotgunResponse _response;
         private EasyTimer _easyTimer;
-        private WebServer _webServer;
-        private string _expectedResponseContent;
+        private HttpServer _server;
 
         [TestFixtureSetUp]
         public void GivenAGetMethodRequestWhenGettingResponse()
         {
             const string url = "http://localhost:7896/";
 
-            _expectedResponseContent = "hey yo!";
-
-            _webServer = new WebServer(webServerRequest => WebServerResponse.Ok(_expectedResponseContent), url);
-            _webServer.Start();
+            _server = new HttpServer(new StandardResponseHandler(HttpStatusCode.OK), 7896);
+            _server.Start();
 
             var request = new ShotgunRequest
             {
@@ -33,7 +31,7 @@ namespace Shotgun.AcceptanceTests.http.get
 
             var client = new ShotgunClient();
 
-            using (_easyTimer = new EasyTimer())
+            using (_easyTimer = EasyTimer.StartNew())
             {
                 _response = client.Execute(request);
             }
@@ -42,7 +40,7 @@ namespace Shotgun.AcceptanceTests.http.get
         [TestFixtureTearDown]
         public void TearDown()
         {
-            _webServer.Stop();
+            _server.Stop();
         }
 
         [Test]
@@ -52,9 +50,9 @@ namespace Shotgun.AcceptanceTests.http.get
         }
 
         [Test]
-        public void ThenTheExpectedResponseContentWasReceived()
+        public void ThenTheExpectedResponseContentWasEmpty()
         {
-            Assert.That(_response.Content, Is.EqualTo(_expectedResponseContent));
+            Assert.That(_response.Content, Is.Null);
         }
 
         [Test]

@@ -39,7 +39,7 @@ namespace Shotgun.AcceptanceTests.http.post
                 Timeout = 2000
             };
 
-            using (_easyTimer = new EasyTimer())
+            using (_easyTimer = EasyTimer.StartNew())
             {
                 _response = client.Execute(request);
             }

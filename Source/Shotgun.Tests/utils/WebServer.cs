@@ -13,7 +13,7 @@ namespace Shotgun.AcceptanceTests.utils
         private readonly object _lockState = new object();
         private IAsyncResult _asyncResult;
 
-        public WebServer(ICollection<string> prefixes, Func<WebServerRequest, WebServerResponse> handler)
+        private WebServer(ICollection<string> prefixes, Func<WebServerRequest, WebServerResponse> handler)
         {
             if (!HttpListener.IsSupported)
                 throw new NotSupportedException("Needs Windows XP SP2, Server 2003 or later.");
@@ -73,11 +73,16 @@ namespace Shotgun.AcceptanceTests.utils
                     var webServerRequest = new WebServerRequest(context.Request);
                     
                     var responseContent = _responderHandler(webServerRequest);
-                    var bytes = Encoding.UTF8.GetBytes(responseContent.Body);
-                    context.Response.ContentLength64 = bytes.Length;
-                    context.Response.OutputStream.Write(bytes, 0, bytes.Length);
                     context.Response.StatusCode = (int) responseContent.StatusCode;
-                    
+                    context.Response.ContentType = responseContent.ContentType;
+
+                    if (!string.IsNullOrEmpty(responseContent.Body))
+                    {
+                        var bytes = Encoding.UTF8.GetBytes(responseContent.Body);
+                        context.Response.ContentLength64 = bytes.Length;
+                        context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+                    }
+
                     _asyncResult = null;
                 }
             }
@@ -96,8 +101,7 @@ namespace Shotgun.AcceptanceTests.utils
             _listener.Stop();
             lock (_lockState)
             {
-                if (_asyncResult != null)
-                    _asyncResult.AsyncWaitHandle.WaitOne(1000);
+                _asyncResult?.AsyncWaitHandle.WaitOne(1000);
             }
         }
     }

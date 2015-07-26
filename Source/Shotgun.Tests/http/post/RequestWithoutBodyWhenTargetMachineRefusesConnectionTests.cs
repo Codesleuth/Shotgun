@@ -1,18 +1,24 @@
-﻿using System;
+using System;
 using System.Net;
 using NUnit.Framework;
 using Shotgun.AcceptanceTests.utils;
 using Shotgun.http;
 using Shotgun.models;
 
-namespace Shotgun.AcceptanceTests.http.get
+namespace Shotgun.AcceptanceTests.http.post
 {
-    [TestFixture]
-    public class ShotgunHttpGetRequestWithConnectFailureTests
+    [TestFixture(Method.GET)]
+    [TestFixture(Method.DELETE)]
+    public class RequestWithoutBodyWhenTargetMachineRefusesConnectionTests
     {
         private IShotgunResponse _response;
-
         private EasyTimer _easyTimer;
+        private readonly Method _method;
+
+        public RequestWithoutBodyWhenTargetMachineRefusesConnectionTests(Method method)
+        {
+            _method = method;
+        }
 
         [TestFixtureSetUp]
         public void GivenAGetMethodRequestWhenGettingResponse()
@@ -22,7 +28,7 @@ namespace Shotgun.AcceptanceTests.http.get
             var request = new ShotgunRequest
             {
                 Uri = new Uri(url),
-                Method = Method.GET
+                Method = _method
             };
 
             var client = new ShotgunClient();
@@ -36,7 +42,7 @@ namespace Shotgun.AcceptanceTests.http.get
         [Test]
         public void ThenTheResponseStatusCodeIsNotSet()
         {
-            Assert.That(_response.StatusCode, Is.EqualTo((HttpStatusCode) 0));
+            Assert.That(_response.StatusCode, Is.EqualTo((HttpStatusCode)0));
         }
 
         [Test]
@@ -46,9 +52,9 @@ namespace Shotgun.AcceptanceTests.http.get
         }
 
         [Test]
-        public void ThenTheResponseFinishedWithoutDelay()
+        public void ThenTheResponseFinishedWithTheDefaultTwoSecondsConnectTimeout()
         {
-            Assert.That(_easyTimer.ElapsedMilliseconds, Is.LessThanOrEqualTo(5000));
+            Assert.That(_easyTimer.ElapsedMilliseconds, Is.EqualTo(2000).Within(500));
         }
     }
 }

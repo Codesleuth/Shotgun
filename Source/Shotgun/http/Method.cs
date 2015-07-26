@@ -6,7 +6,6 @@ namespace Shotgun.http
         POST,
         PUT,
         DELETE,
-        HEAD,
         OPTIONS,
         PATCH,
         MERGE,

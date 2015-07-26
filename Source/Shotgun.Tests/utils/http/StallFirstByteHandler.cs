@@ -5,7 +5,8 @@ namespace Shotgun.AcceptanceTests.utils.http
 {
     public class StallFirstByteHandler : HttpServerHandler
     {
-        public int StallMilliseconds { get; private set; }
+        public int StallMilliseconds { get; }
+        public int HandleCount { get; private set; }
 
         public StallFirstByteHandler(int stallMilliseconds)
         {
@@ -14,6 +15,7 @@ namespace Shotgun.AcceptanceTests.utils.http
 
         public override void Handle(TcpClient client)
         {
+            HandleCount++;
             using (client.GetStream())
             {
                 Thread.Sleep(StallMilliseconds);

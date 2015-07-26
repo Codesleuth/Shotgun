@@ -6,7 +6,6 @@ namespace Shotgun.http
 {
     internal interface IHttpResponse
     {
-        string Content { get; set; }
         Exception ErrorException { get; set; }
         ResponseStatus ResponseStatus { get; set; }
         string ErrorMessage { get; set; }

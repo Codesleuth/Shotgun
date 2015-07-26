@@ -6,7 +6,6 @@ namespace Shotgun.http
 {
     internal class HttpResponse : IHttpResponse
     {
-        public string Content { get; set; }
         public Exception ErrorException { get; set; }
         public ResponseStatus ResponseStatus { get; set; }
         public string ErrorMessage { get; set; }

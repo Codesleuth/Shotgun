@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Shotgun.AcceptanceTests</RootNamespace>
     <AssemblyName>Shotgun.AcceptanceTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,10 +41,16 @@
     <Compile Include="http\get\ShotgunHttpGetRequestTests.cs" />
     <Compile Include="http\get\ShotgunHttpGetRequestWithConnectFailureTests.cs" />
     <Compile Include="http\get\ShotgunHttpGetRequestWithConnectionTimeoutTests.cs" />
-    <Compile Include="http\post\ShotgunHttpPostRequestTests.cs" />
+    <Compile Include="http\post\RequestWithBodyTests.cs" />
+    <Compile Include="http\post\RequestWithBodyWhenTargetMachineRefusesConnectionTests.cs" />
+    <Compile Include="http\post\RequestWithBodyWhenTimeoutBeforeConnectTests.cs" />
+    <Compile Include="http\post\RequestWithoutBodyWhenTargetMachineRefusesConnectionTests.cs" />
+    <Compile Include="http\post\RequestWithoutBodyWhenTimeoutBeforeConnectTests.cs" />
+    <Compile Include="http\post\RequestWithoutBodyWithConnectionTimeoutAfterConnectTests.cs" />
     <Compile Include="http\post\ShotgunHttpPostRequestWithSlowBodyTimeoutTests.cs" />
     <Compile Include="http\post\ShotgunHttpPostRequestWithSlowConnectionClosedTests.cs" />
     <Compile Include="http\post\ShotgunHttpPostRequestWithSlowStatusCodeResponseTests.cs" />
+    <Compile Include="http\post\RequestWithoutBodyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="utils\EasyTimer.cs" />
     <Compile Include="utils\http\HttpServer.cs" />
@@ -52,6 +59,7 @@
     <Compile Include="utils\http\StallBodyReadHandler.cs" />
     <Compile Include="utils\http\StallConnectionCloseHandler.cs" />
     <Compile Include="utils\http\StallFirstByteHandler.cs" />
+    <Compile Include="utils\http\StandardResponseHandler.cs" />
     <Compile Include="utils\WebServer.cs" />
     <Compile Include="utils\WebServerRequest.cs" />
     <Compile Include="utils\WebServerResponse.cs" />

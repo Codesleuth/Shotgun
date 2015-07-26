@@ -72,8 +72,7 @@ namespace Shotgun.AcceptanceTests.utils.http
             _listener.Stop();
             lock (_lockState)
             {
-                if (_asyncResult != null)
-                    _asyncResult.AsyncWaitHandle.WaitOne(1000);
+                _asyncResult?.AsyncWaitHandle.WaitOne(1000);
             }
         }
     }

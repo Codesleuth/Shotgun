@@ -7,12 +7,12 @@ namespace Shotgun.AcceptanceTests.utils.http
 {
     public class StallAfterResponseHandler : HttpServerHandler
     {
-        public int StallMilliseconds { get; private set; }
-
         public StallAfterResponseHandler(int stallMilliseconds)
         {
             StallMilliseconds = stallMilliseconds;
         }
+
+        public int StallMilliseconds { get; }
 
         public override void Handle(TcpClient client)
         {
